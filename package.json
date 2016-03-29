@@ -1,0 +1,29 @@
+{
+  "name": "twitch-stream-check",
+  "version": "1.0.0",
+  "description": "A simple Node.js command line tool to check to see if a Twitch user is streaming or not",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/joeleisner/twitch-stream-check"
+  },
+  "author": "Joel Eisner <jeisner93@gmail.com> (http://www.joeleisner.com)",
+  "license": "ISC",
+  "keywords": [
+      "command",
+      "line",
+      "terminal",
+      "twitch",
+      "stream",
+      "streaming"
+  ],
+  "bin": {
+    "twitch-stream-check": "./index.js"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "superagent": "^1.8.3",
+    "timeago-words": "0.0.3"
+  }
+}
