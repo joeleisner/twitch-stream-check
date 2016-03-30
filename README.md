@@ -15,6 +15,9 @@ To use this command line tool, use the `twitch-stream-check [options] <streamer>
 * **-g, --game** - Shows the game the streamer is playing
 * **-v, --viewers** - Shows the amount of viewers the streamer currently has watching
 * **-s, --started** - Shows when the streamer went live
+* **-m, --mature** - Shows whether the streamer streams mature content or not
+* **-t, --title** - Shows the current stream title
+* **-p, --partnered** - Shows whether the streamer is partnered or not
 
 ### Version/Help
 * **To check version** - `twitch-stream-check -V`
