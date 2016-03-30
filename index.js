@@ -8,7 +8,7 @@ var chalk = require('chalk'),
 
 // Program (Commander)
 program
-    .version('1.1.0')
+    .version('1.1.1')
     .arguments('<twitch-username>')
     .option('-g, --game', 'Shows the game the streamer is playing')
     .option('-v, --viewers', 'Shows the amount of viewers the streamer currently has watching')
@@ -16,6 +16,7 @@ program
     .option('-m, --mature', 'Shows whether the streamer streams mature content or not')
     .option('-t, --title', 'Shows the current stream title')
     .option('-p, --partnered', 'Shows whether the streamer is partnered or not')
+    .option('-f, --followers', 'Shows the amount of followers the streamer has')
     .action(function (streamer) {
         request
             .post('https://api.twitch.tv/kraken/streams/' + streamer)
@@ -49,6 +50,7 @@ program
                         }
                         output += '\n' + chalk.blue('Partnered?: ') + msg;
                     }
+                    if (program.followers) {output += '\n' + chalk.blue('Followers: ') + stream["channel"]["followers"];}
                 }
                 console.log(output);
             });
