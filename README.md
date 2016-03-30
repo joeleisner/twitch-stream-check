@@ -18,6 +18,7 @@ To use this command line tool, use the `twitch-stream-check [options] <streamer>
 * **-m, --mature** - Shows whether the streamer streams mature content or not
 * **-t, --title** - Shows the current stream title
 * **-p, --partnered** - Shows whether the streamer is partnered or not
+* **-f, --followers** - Shows the amount of followers the streamer has
 
 ### Version/Help
 * **To check version** - `twitch-stream-check -V`
