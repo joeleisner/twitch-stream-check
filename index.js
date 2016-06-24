@@ -8,7 +8,7 @@ var chalk = require('chalk'),
 
 // Program (Commander)
 program
-    .version('1.1.1')
+    .version('1.1.2')
     .arguments('<twitch-username>')
     .option('-g, --game', 'Shows the game the streamer is playing')
     .option('-v, --viewers', 'Shows the amount of viewers the streamer currently has watching')
@@ -22,35 +22,34 @@ program
             .post('https://api.twitch.tv/kraken/streams/' + streamer)
             .set('Accept', 'application/json')
             .end(function (err, res) {
-                var stream = JSON.parse(res.text)["stream"],
+                var stream = JSON.parse(res.text).stream,
                     output = '';
-                if (stream == null) {
+                if (stream === null) {
                     output += chalk.red(firstUp(streamer) + ' is not streaming');
                 } else {
                     output += chalk.green(firstUp(streamer) + ' is streaming');
-                    if (program.game) {output += '\n' + chalk.blue('Game: ') + stream["game"];}
-                    if (program.viewers) {output += '\n' + chalk.blue('Viewers: ') + stream["viewers"];}
-                    if (program.started) {output += '\n' + chalk.blue('Started: ') + firstUp(timeago(new Date(stream["created_at"])))}
+                    if (program.game) {output += '\n' + chalk.blue('Game: ') + stream.game;}
+                    if (program.viewers) {output += '\n' + chalk.blue('Viewers: ') + stream.viewers;}
+                    if (program.started) {output += '\n' + chalk.blue('Started: ') + firstUp(timeago(new Date(stream.created_at)));}
+                    var msg;
                     if (program.mature) {
-                        var msg;
-                        if (stream["channel"]["mature"]) {
+                        if (stream.channel.mature) {
                             msg = 'This streamer streams mature content';
                         } else {
                             msg = 'This streamer does not stream mature content';
                         }
                         output += '\n' + chalk.blue('Mature?: ') + msg;
                     }
-                    if (program.title) {output += '\n' + chalk.blue('Title: ') + stream["channel"]["status"];}
+                    if (program.title) {output += '\n' + chalk.blue('Title: ') + stream.channel.status;}
                     if (program.partnered) {
-                        var msg;
-                        if (stream["channel"]["partner"]) {
+                        if (stream.channel.partner) {
                             msg = 'This streamer is partnered';
                         } else {
                             msg = 'This streamer is not partnered';
                         }
                         output += '\n' + chalk.blue('Partnered?: ') + msg;
                     }
-                    if (program.followers) {output += '\n' + chalk.blue('Followers: ') + stream["channel"]["followers"];}
+                    if (program.followers) {output += '\n' + chalk.blue('Followers: ') + stream.channel.followers;}
                 }
                 console.log(output);
             });
