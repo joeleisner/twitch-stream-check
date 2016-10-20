@@ -20,6 +20,7 @@ program
     .action(function (streamer) {
         request
             .post('https://api.twitch.tv/kraken/streams/' + streamer)
+            .set('Client-ID', '3zzmx0l2ph50anf78iefr6su9d8byj8')
             .set('Accept', 'application/json')
             .end(function (err, res) {
                 var stream = JSON.parse(res.text).stream,
