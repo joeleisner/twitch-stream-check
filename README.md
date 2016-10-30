@@ -1,7 +1,7 @@
 # Twitch-Stream-Check
 *A simple Node.js command line tool to check to see if a Twitch user is streaming or not*
 
-![A screenshot showcasing the command in use](http://joeleisner.com/github/screenshots/twitch-stream-check/screenshot.png)
+![A screenshot showcasing the command in use](http://joeleisner.com/github/screenshots/twitch-stream-check/screenshot-2.png)
 
 ## How to Install
 ```
