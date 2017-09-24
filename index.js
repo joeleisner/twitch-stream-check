@@ -1,7 +1,7 @@
 #!/usr/bin/env node --harmony
 
 // Require
-var chalk = require('chalk'),
+var chalk =   require('chalk'),
     program = require('commander'),
     request = require('superagent'),
     timeago = require('timeago-words');
@@ -19,7 +19,7 @@ program
     .option('-f, --followers', 'Shows the amount of followers the streamer has')
     .action(function (streamer) {
         request
-            .post('https://api.twitch.tv/kraken/streams/' + streamer)
+            .get('https://api.twitch.tv/kraken/streams/' + streamer)
             .set('Client-ID', '3zzmx0l2ph50anf78iefr6su9d8byj8')
             .set('Accept', 'application/json')
             .end(function (err, res) {
