@@ -1,63 +1,19 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node
 
-// Require
-var chalk =   require('chalk'),
-    program = require('commander'),
-    request = require('superagent'),
-    timeago = require('timeago-words');
+const action = require('./action'),
+    pkg      = require('./package.json'),
+    program  = require('commander');
 
-// Program (Commander)
+// Create the program
 program
-    .version('1.1.2')
+    .version(pkg.version)
     .arguments('<twitch-username>')
-    .option('-g, --game', 'Shows the game the streamer is playing')
-    .option('-v, --viewers', 'Shows the amount of viewers the streamer currently has watching')
-    .option('-s, --started', 'Shows when the streamer went live')
-    .option('-m, --mature', 'Shows whether the streamer streams mature content or not')
-    .option('-t, --title', 'Shows the current stream title')
-    .option('-p, --partnered', 'Shows whether the streamer is partnered or not')
-    .option('-f, --followers', 'Shows the amount of followers the streamer has')
-    .action(function (streamer) {
-        request
-            .get('https://api.twitch.tv/kraken/streams/' + streamer)
-            .set('Client-ID', '3zzmx0l2ph50anf78iefr6su9d8byj8')
-            .set('Accept', 'application/json')
-            .end(function (err, res) {
-                var stream = JSON.parse(res.text).stream,
-                    output = '';
-                if (stream === null) {
-                    output += chalk.red(firstUp(streamer) + ' is not streaming');
-                } else {
-                    output += chalk.green(firstUp(streamer) + ' is streaming');
-                    if (program.game) {output += '\n' + chalk.blue('Game: ') + stream.game;}
-                    if (program.viewers) {output += '\n' + chalk.blue('Viewers: ') + stream.viewers;}
-                    if (program.started) {output += '\n' + chalk.blue('Started: ') + firstUp(timeago(new Date(stream.created_at)));}
-                    var msg;
-                    if (program.mature) {
-                        if (stream.channel.mature) {
-                            msg = 'This streamer streams mature content';
-                        } else {
-                            msg = 'This streamer does not stream mature content';
-                        }
-                        output += '\n' + chalk.blue('Mature?: ') + msg;
-                    }
-                    if (program.title) {output += '\n' + chalk.blue('Title: ') + stream.channel.status;}
-                    if (program.partnered) {
-                        if (stream.channel.partner) {
-                            msg = 'This streamer is partnered';
-                        } else {
-                            msg = 'This streamer is not partnered';
-                        }
-                        output += '\n' + chalk.blue('Partnered?: ') + msg;
-                    }
-                    if (program.followers) {output += '\n' + chalk.blue('Followers: ') + stream.channel.followers;}
-                }
-                console.log(output);
-            });
-    })
+    .option('-g, --game',      'The game the streamer is playing')
+    .option('-v, --viewers',   'The amount of viewers the streamer currently has watching')
+    .option('-s, --started',   'When the streamer went live')
+    .option('-m, --mature',    'Whether the streamer streams mature content or not')
+    .option('-t, --title',     'The current stream title')
+    .option('-p, --partnered', 'Whether the streamer is partnered or not')
+    .option('-f, --followers', 'The amount of followers the streamer has')
+    .action(action)
     .parse(process.argv);
-
-// Convert first character of string to uppercase
-function firstUp(str) {
-    return str.substr(0,1).toUpperCase() + str.substr(1);
-}
