@@ -1,6 +1,6 @@
 {
   "name": "twitch-stream-check",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "A simple command line tool to check to see if a Twitch user is streaming or not",
   "main": "index.js",
   "repository": {
