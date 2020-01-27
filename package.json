@@ -21,9 +21,9 @@
     "twitch-stream-check": "./index.js"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
-    "commander": "^2.20.0",
-    "superagent": "^5.0.2",
+    "chalk": "^3.0.0",
+    "commander": "^2.20.3",
+    "superagent": "^5.2.1",
     "timeago-words": "0.0.3"
   }
 }
