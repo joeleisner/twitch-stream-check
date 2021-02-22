@@ -73,6 +73,7 @@ module.exports = (streamer, program) => {
     _streamer = streamer;
     _program  = program;
 
+    // Store the header to use for all requests
     const header = {
         'Client-ID': '3zzmx0l2ph50anf78iefr6su9d8byj8',
         'Accept':    'application/vnd.twitchtv.v5+json'
