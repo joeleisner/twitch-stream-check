@@ -18,7 +18,7 @@ function output(style, ...value) {
 
 // Handle request failure
 function failure(error) {
-    output('red', 'An error occured!', error.code);
+    output('red', 'An error occured!', error);
     return process.exit(1);
 }
 
@@ -72,12 +72,30 @@ module.exports = (streamer, program) => {
     // Make the streamer/program globally accessible
     _streamer = streamer;
     _program  = program;
-    // Store the URL and request headers...
-    const url = 'https://api.twitch.tv/kraken/streams/' + streamer,
-        header = {
-            clientId: [ 'Client-ID', '3zzmx0l2ph50anf78iefr6su9d8byj8' ],
-            accept:   [ 'Accept',    'application/json' ]
-        };
+
+    // Store the header to use for all requests
+    const header = {
+        'Client-ID': '3zzmx0l2ph50anf78iefr6su9d8byj8',
+        'Accept':    'application/vnd.twitchtv.v5+json'
+    };
+
+    // Store the URL to request users...
+    const usersURL = 'https://api.twitch.tv/kraken/users?login=' + streamer
     // ... and make the request
-    request.get(url).set(...header.clientId).set(...header.accept).end(response);
+    request.get(usersURL).set(header).end((err, res) => {
+        // If an error occured, log a failure
+        if (err) return failure(err);
+
+        // Next, get the users array from the response body...
+        const { users } = res.body;
+        // ... and if there's more than one user, log a failure
+        if (users.length > 1) return failure('There are more than one user by the name "' + streamer + '"');
+
+        // Next, get the user's ID...
+        const { _id: id } = users[0],
+            // ... store the URL to request a stream,...
+            streamsURL = 'https://api.twitch.tv/kraken/streams/' + id;
+        // ... and make the final request
+        request.get(streamsURL).set(header).end(response);
+    });
 };
